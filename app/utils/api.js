@@ -1,25 +1,24 @@
-const axios = require('axios');
-
+import axios from 'axios';
 const id = "YOUR_CLIENT_ID";
 const sec = "YOUR_SECRET_ID";
 const params = `?clinet_id=${id}&client_secret=${sec}`;
 
 function getProfile(username){
-    // return axios.get(`https://api.github.com/user/${username}${params}`)
-    return axios.get(`https://api.github.com/user/${username}`)
+    // return axios.get(`https://api.github.com/users/${username}${params}`)
+    return axios.get(`https://api.github.com/users/${username}`)
     .then( (user) => {
         return user.data;
     })
 }
 function getRepos(username){
-    // return axios.get(`https://api.github.com/user/${username}/repos${params}&per_page=100`)
-    return axios.get(`https://api.github.com/user/${username}/repos&per_page=100`)
+    // return axios.get(`https://api.github.com/users/${username}/repos${params}&per_page=100`)
+    return axios.get(`https://api.github.com/users/${username}/repos?per_page=100`)
     .then( (user) => {
         return user.data;
     })
 }
 function getStarCount(repos){
-    return repos.data.reduce( (count, repo)=>{
+    return repos.reduce( (count, repo)=>{
         return count + repo.stargazers_count;
     }, 0)
 }
@@ -36,7 +35,8 @@ function getUserData(player){
     return axios.all([
         getProfile(player),
         getRepos(player)
-    ]).then( (data) =>{
+    ]).then( (data) => {
+        console.log(data)
         let profile = data[0];
         let repos = data[1];
 
@@ -67,9 +67,3 @@ module.exports = {
         })
     }
 }
-
-
-// fetchPopularRepos('Java')
-// .then(res => {
-    
-// })

@@ -1,27 +1,34 @@
-const React = require('react');
-const queryString = require('query-string');
-const api = require('../utils/api');
-const Link = require('react-router-dom').Link;
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import api from '../utils/api';
+import { Link } from 'react-router-dom';
 const PlayerPreview = require('./PlayerPreview');
 const Loading = require('./Loading');
 
 
 function Profile(props){
+    var info = props.info;
+
     return (
-        <PlayerPreview
-            avatar={props.info.avatar_url}
-            username={props.info.login}
-        >
-            <ul class='space-list-items'>
-                { props.info.name && <li>{props.info.name}</li>}
-                { props.info.location && <li>{props.info.location}</li>}
+        <PlayerPreview username={info.login} avatar={info.avatar_url}>
+            <ul className='space-list-items'>
+                {info.name && <li>{info.name}</li>}
+                {info.location && <li>{info.location}</li>}
+                {info.company && <li>{info.company}</li>}
+                <li>Followers: {info.followers}</li>
+                <li>Following: {info.following}</li>
+                <li>Public Repos: {info.public_repos}</li>
+                {info.blog && <li><a href={info.blog}>{info.blog}</a></li>}
             </ul>
         </PlayerPreview>
     )
 }
+Profile.propTypes = {
+    info: PropTypes.object.isRequired
+}
 
-function Player() {
+function Player(props) {
     return (
         <div>
             <h1 className='header'>{props.label}</h1>

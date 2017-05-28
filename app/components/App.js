@@ -1,19 +1,19 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import { 
+    BrowserRouter,
+    Switch,
+    Route
+} from 'react-router-dom';
 const Popular = require('./Popular');
-const ReactRouter = require('react-router-dom');
-const Router = ReactRouter.BrowserRouter;
-const Route = ReactRouter.Route;
 const Nav = require('./Nav');
 const Home = require('./Home');
 const Battle = require('./Battle');
-const Switch = ReactRouter.Switch;
 const Results = require('./Results');
 
 class App extends React.Component {
     render() {
         return (
-            <Router>
+            <BrowserRouter>
                 <div className='container'>
                     <Nav />
                     <Switch>
@@ -26,7 +26,7 @@ class App extends React.Component {
                         }} />
                     </Switch>
                 </div>
-            </Router>
+            </BrowserRouter>
         )
     }
 }

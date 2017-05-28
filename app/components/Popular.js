@@ -1,7 +1,7 @@
 // #######################################################################################
-const React = require('react');
-const PropTypes = require('prop-types');
-const api = require('../utils/api');
+import React from 'react';
+import PropTypes from 'prop-types';
+import api from '../utils/api';
 const Loading = require('./Loading');
 // #######################################################################################
 

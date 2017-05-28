@@ -1,6 +1,8 @@
-const React = require('react');
-const PropTypes = require('prop-types');
-const Link = require('react-router-dom').Link;
+import React from 'react';
+import PropTypes from 'prop-types';
+import { 
+    Link
+} from 'react-router-dom';
 const PlayerPreview = require('./PlayerPreview');
 
 class PlayerInput extends React.Component {
@@ -15,6 +17,7 @@ class PlayerInput extends React.Component {
     }
     handleChange(event) {
         var value = event.target.value;
+        
         this.setState( function(){
             return {
                 username: value

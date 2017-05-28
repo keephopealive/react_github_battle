@@ -1,6 +1,7 @@
-const React = require('react');
-// const Link = require('react-router-dom').Link;
-const NavLink = require('react-router-dom').NavLink;
+import React from 'react';
+import { 
+    NavLink 
+} from 'react-router-dom';
 
 function Nav() {
     return (
