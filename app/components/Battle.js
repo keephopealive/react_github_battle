@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { 
     Link
 } from 'react-router-dom';
-const PlayerPreview = require('./PlayerPreview');
+import PlayerPreview from './PlayerPreview';
 
 class PlayerInput extends React.Component {
     constructor(props){
@@ -16,8 +16,8 @@ class PlayerInput extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleChange(event) {
-        var value = event.target.value;
-        
+        const value = event.target.value;
+
         this.setState( function(){
             return {
                 username: value
@@ -158,4 +158,4 @@ class Battle extends React.Component {
     }
 }
 
-module.exports = Battle;
+export default Battle;

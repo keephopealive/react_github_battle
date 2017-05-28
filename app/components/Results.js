@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
-import api from '../utils/api';
+import { parse } from 'query-string';
+import { battle } from '../utils/api';
 import { Link } from 'react-router-dom';
-const PlayerPreview = require('./PlayerPreview');
-const Loading = require('./Loading');
+import PlayerPreview from './PlayerPreview';
+import Loading from './Loading';
 
 
-function Profile(props){
-    var info = props.info;
+function Profile({info}){
 
     return (
         <PlayerPreview username={info.login} avatar={info.avatar_url}>
@@ -28,12 +27,12 @@ Profile.propTypes = {
     info: PropTypes.object.isRequired
 }
 
-function Player(props) {
+function Player({label, score, profile}) {
     return (
         <div>
-            <h1 className='header'>{props.label}</h1>
-            <h3 style={{textAlign:'center'}}>Score: {props.score}</h3>
-            <Profile info={props.profile}/>
+            <h1 className='header'>{label}</h1>
+            <h3 style={{textAlign:'center'}}>Score: {score}</h3>
+            <Profile info={profile}/>
         </div>
     )
 }
@@ -55,31 +54,28 @@ class Results extends React.Component {
             loading: true
         }
     }
-    componentDidMount(){
-        let players = queryString.parse(this.props.location.search)
-        api.battle([
-            players.playerOneName,
-            players.playerTwoName
-        ]).then( (results) => {
-            if ( results === null ){
-                return this.setState(() => {
-                    return {
-                        error: 'Error, check if both users exist on Github',
-                        loading: false
-                    }
-                })
-            }
-
-            this.setState(()=>{
-                return {
-                    error: null,
-                    winner: results[0],
-                    loser: results[1],
+    async componentDidMount(){
+        const { playerOneName, playerTwoName } = parse(this.props.location.search)
+        try {  
+            const players = await battle([playerOneName, playerTwoName])
+            return players === null 
+            ? this.setState(() => (
+                {
+                    error: 'Error, check if both users exist on Github',
                     loading: false
                 }
-            })
-            
-        })
+            ))
+            : this.setState( () => (
+                {
+                    error: null,
+                    winner: players[0],
+                    loser: players[1],
+                    loading: false
+                }
+            ))
+        } catch (err) {
+            console.warn("Error ", err);
+        }
     }
     render(){
         let error = this.state.error;
@@ -117,4 +113,4 @@ class Results extends React.Component {
     }
 }
 
-module.exports = Results;
+export default Results;

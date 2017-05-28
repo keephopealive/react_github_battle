@@ -1,8 +1,8 @@
 // #######################################################################################
 import React from 'react';
 import PropTypes from 'prop-types';
-import api from '../utils/api';
-const Loading = require('./Loading');
+import { fetchPopularRepos } from '../utils/api';
+import Loading from './Loading';
 // #######################################################################################
 
 
@@ -83,21 +83,24 @@ class Popular extends React.Component {
     componentDidMount() {
         this.updateLanguage(this.state.selectedLanguage)
     }
-    updateLanguage(lang) {
+    async updateLanguage(lang) {
         this.setState( () => {
             return {
                 selectedLanguage: lang,
                 repos: null
             }
         })
-        api.fetchPopularRepos(lang)
-        .then( repos => {
+        try {
+            const repos = await fetchPopularRepos(lang)
             this.setState( () => {
                 return {
-                    repos: repos
+                    repos
                 }
             })
-        })
+        } catch (err) {
+            console.warn("error: ", err);
+        }
+        
     }
     render() {
         return (
@@ -115,4 +118,4 @@ class Popular extends React.Component {
 }
 // #######################################################################################
 
-module.exports = Popular;
+export default Popular;

@@ -6,7 +6,10 @@ const webpack = require('webpack');
 // minify code
 
 let config = {
-    entry: './app/index.js',
+    entry: [
+        'babel-polyfill',
+        './app/index.js'
+    ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'index_bundle.js',
@@ -22,7 +25,9 @@ let config = {
         historyApiFallback: true
     },
     plugins: [new HtmlWebpackPlugin({
-        template: 'app/index.html'
+        template: __dirname + '/app/index.html',
+        filename: 'index.html',
+        inject: 'body'
     })]
 }
 
